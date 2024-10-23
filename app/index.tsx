@@ -5,9 +5,8 @@ export default function Index() {
   const router = useRouter();
   return (
     <View className="flex flex-1 justify-center items-center">
-      <Text className="text-emerald-700">Hello! Go to profile:</Text>
-      <Link href="/profile">Go to profile!!!</Link>
-      <Button title="Go to Profile" onPress={() => router.push("/profile")} />
+      <Text className="text-3xl font-pblack">Aora</Text>
+      <Link href="/home">Go home</Link>
     </View>
   );
 }
