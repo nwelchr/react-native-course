@@ -4,6 +4,7 @@ import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
+import "react-native-url-polyfill/auto";
 
 export default function App() {
   return (
