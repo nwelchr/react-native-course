@@ -6,23 +6,24 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import * as Animatable from "react-native-animatable";
 
 import { icons } from "@/constants";
+import { ResizeMode, Video } from "expo-av";
 
 const zoomIn = {
   0: {
     scale: 0.9,
   },
   1: {
-    scale: 1,
+    scale: 1.1,
   },
 };
 
 const zoomOut = {
   0: {
-    scale: 1,
+    scale: 1.1,
   },
   1: {
     scale: 0.9,
@@ -32,8 +33,6 @@ const zoomOut = {
 const TrendingItem = ({ activeItem, item }) => {
   const [play, setPlay] = useState(false);
 
-  console.log(activeItem.$id, item.$id);
-
   return (
     <Animatable.View
       className="mr-5"
@@ -41,7 +40,26 @@ const TrendingItem = ({ activeItem, item }) => {
       duration={500}
     >
       {play ? (
-        <Text className="text-white">Playing</Text>
+        <Video
+          style={{
+            width: 208,
+            height: 248,
+            borderRadius: 12,
+            marginTop: 12,
+            borderWidth: 2,
+            borderColor: "secondary",
+          }}
+          source={{ uri: "https://www.w3schools.com/html/mov_bbb.mp4" }}
+          resizeMode={ResizeMode.CONTAIN}
+          useNativeControls
+          shouldPlay
+          onPlaybackStatusUpdate={(status) => {
+            console.log({ status });
+            if (status.didJustFinish) {
+              setPlay(false);
+            }
+          }}
+        />
       ) : (
         <TouchableOpacity
           className="relative justify-center items-center"
@@ -51,7 +69,7 @@ const TrendingItem = ({ activeItem, item }) => {
           <ImageBackground
             style={{ width: 208, height: 248 }}
             source={{ uri: item.thumbnail }}
-            className="overflow-hidden rounded-[35px] shadow-lg shadow-black-40 my-5"
+            className="overflow-hidden rounded-[35px] shadow-lg shadow-black/40 my-5"
             resizeMode="cover"
           />
           <Image
@@ -69,12 +87,11 @@ const TrendingItem = ({ activeItem, item }) => {
 const Trending = ({ posts }) => {
   const [activeItem, setActiveItem] = useState(posts[1]);
 
-  const viewableItemsChanged = ({ viewableItems }) => {
+  const viewableItemsChanged = useCallback(({ viewableItems }) => {
     if (viewableItems.length > 0) {
-      console.log({ viewableItems });
       setActiveItem(viewableItems[0].item);
     }
-  };
+  }, []);
 
   return (
     <FlatList
@@ -86,7 +103,7 @@ const Trending = ({ posts }) => {
       horizontal
       onViewableItemsChanged={viewableItemsChanged}
       viewabilityConfig={{ itemVisiblePercentThreshold: 80 }}
-      contentOffset={{ x: 170 }}
+      contentOffset={{ x: 120 }}
     />
   );
 };
