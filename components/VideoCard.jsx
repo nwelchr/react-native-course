@@ -47,19 +47,28 @@ const VideoCard = ({
             style={{ width: 20, height: 20 }}
             resizeMode="contain"
           />
-          wjopefj
         </View>
       </View>
 
       {play ? (
-        <Text>Playing</Text>
+        <Text className="text-3xl text-white">Playing</Text>
       ) : (
-        <TouchableOpacity className="w-full">
+        <TouchableOpacity
+          className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
+          activeOpacity={0.7}
+          onPress={() => setPlay(true)}
+        >
           <Image
             source={{ uri: thumbnail }}
             className="rounded-xl mt-3"
-            style={{ height: 240 }}
+            style={{ height: 240, width: "100%" }}
             resizeMode="cover"
+          />
+          <Image
+            source={icons.play}
+            style={{ height: 48, width: 48 }}
+            className="absolute"
+            resizeMode="contain"
           />
         </TouchableOpacity>
       )}
