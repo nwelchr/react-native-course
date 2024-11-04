@@ -22,7 +22,9 @@ const GlobalProvider = ({ children }) => {
           setUser(null);
         }
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        throw new Error(error);
+      })
       .finally(() => setIsLoading(false));
   }, []);
 
