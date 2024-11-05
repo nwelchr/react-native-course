@@ -43,18 +43,15 @@ const TrendingItem = ({ activeItem, item }) => {
         <Video
           style={{
             width: 208,
-            height: 248,
+            height: 288,
             borderRadius: 12,
             marginTop: 12,
-            borderWidth: 2,
-            borderColor: "secondary",
           }}
           source={{ uri: "https://www.w3schools.com/html/mov_bbb.mp4" }}
           resizeMode={ResizeMode.CONTAIN}
           useNativeControls
           shouldPlay
           onPlaybackStatusUpdate={(status) => {
-            console.log({ status });
             if (status.didJustFinish) {
               setPlay(false);
             }
@@ -67,7 +64,7 @@ const TrendingItem = ({ activeItem, item }) => {
           onPress={() => setPlay(true)}
         >
           <ImageBackground
-            style={{ width: 208, height: 248 }}
+            style={{ width: 208, height: 288 }}
             source={{ uri: item.thumbnail }}
             className="overflow-hidden rounded-[35px] shadow-lg shadow-black/40 my-5"
             resizeMode="cover"

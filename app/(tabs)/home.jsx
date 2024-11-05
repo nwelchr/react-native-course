@@ -16,7 +16,7 @@ const Home = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    refetch(getAllPosts);
+    refetch();
     setRefreshing(false);
   };
 
