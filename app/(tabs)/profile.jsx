@@ -3,19 +3,25 @@ import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EmptyState from "@/components/EmptyState";
 import useAppwrite from "@/lib/useAppwrite";
-import { getUserPosts } from "@/lib/appwrite";
+import { getUserPosts, signOut } from "@/lib/appwrite";
 import VideoCard from "@/components/VideoCard";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { icons } from "@/constants";
 import InfoBox from "@/components/InfoBox";
+import { router } from "expo-router";
 
 const Profile = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
-  const { data: posts, refetch } = useAppwrite(() => getUserPosts(user.$id));
+  const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
 
-  useEffect(() => {
-    refetch();
-  }, [user.$id]);
+  console.log({ user, posts });
+
+  const logout = async () => {
+    await signOut();
+    setUser(null);
+    setIsLoggedIn(false);
+    router.replace("/sign-in");
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -28,7 +34,7 @@ const Profile = () => {
             <TouchableOpacity
               className="w-full items-end mb-10"
               onPress={() => {
-                /** logout */
+                logout();
               }}
             >
               <Image
