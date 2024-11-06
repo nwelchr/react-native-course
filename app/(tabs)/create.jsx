@@ -16,6 +16,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { router } from "expo-router";
 import { createVideo } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import * as ImagePicker from "expo-image-picker";
 
 const initialFormState = {
   title: "",
@@ -27,16 +28,20 @@ const initialFormState = {
 const Create = () => {
   const [form, setForm] = useState(initialFormState);
 
+  console.log({ form });
+
   const [uploading, setUploading] = useState(false);
 
   const { user } = useGlobalContext();
 
   const openPicker = async (selectType) => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type:
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes:
         selectType === "image"
-          ? ["image/png", "image/jpg"]
-          : ["video/mp4", "video/gif"],
+          ? ImagePicker.MediaTypeOptions.Images
+          : ImagePicker.MediaTypeOptions.Videos,
+      aspect: [4, 3],
+      quality: 1,
     });
 
     if (!result.canceled) {
@@ -54,7 +59,6 @@ const Create = () => {
   };
 
   const submit = async () => {
-    console.log("HEMMM");
     if (!form.prompt || !form.title || !form.thumbnail || !form.video) {
       return Alert.alert("Please fill in all fields");
     }
@@ -97,9 +101,9 @@ const Create = () => {
             {form.video ? (
               <Video
                 source={{ uri: form.video.uri }}
-                resizeMode={ResizeMode.COVER}
                 style={{ width: "100%", height: "256px" }}
                 className="rounded-2xl"
+                resizeMode={ResizeMode.COVER}
               />
             ) : (
               <View className="w-full h-40 px-4 bg-black-100 rounded-2xl justify-center items-center">
