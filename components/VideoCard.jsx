@@ -59,7 +59,7 @@ const VideoCard = ({
             height: 240,
             borderRadius: 36,
           }}
-          source={{ uri: "https://www.w3schools.com/html/mov_bbb.mp4" }}
+          source={{ uri: video }}
           resizeMode={ResizeMode.CONTAIN}
           useNativeControls
           shouldPlay
